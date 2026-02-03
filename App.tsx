@@ -10,9 +10,8 @@ import AudioPlayer from './components/AudioPlayer';
 import VoiceSelector from './components/VoiceSelector';
 import CustomVoiceControls from './components/CustomVoiceControls';
 
-// Vite cung cấp các biến môi trường qua `import.meta.env`
-// FIX: Switched from import.meta.env.VITE_API_KEY to process.env.API_KEY as per guidelines, which resolves the TypeScript error.
-// const API_KEY = import.meta.env.VITE_API_KEY;
+// Fix: Use process.env.API_KEY as per the coding guidelines.
+const API_KEY = process.env.API_KEY;
 
 const App = () => {
     const [text, setText] = useState<string>("Xin chào, đây là một bài kiểm tra của mô hình tạo giọng nói. Tôi có thể nói bằng nhiều giọng khác nhau.");
@@ -44,8 +43,7 @@ const App = () => {
     const PRESETS_STORAGE_KEY = 'gemini_tts_presets_v1';
   
     useEffect(() => {
-      // FIX: Use process.env.API_KEY as per guidelines.
-      setIsApiKeyConfigured(!!process.env.API_KEY);
+      setIsApiKeyConfigured(!!API_KEY);
       try {
         const savedPresets = localStorage.getItem(PRESETS_STORAGE_KEY);
         if (savedPresets) setPresets(JSON.parse(savedPresets));
@@ -80,8 +78,7 @@ const App = () => {
       setText('');
   
       try {
-        // FIX: Use process.env.API_KEY as per guidelines.
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+        const ai = new GoogleGenAI({ apiKey: API_KEY as string });
         const audioPart = await fileToGenerativePart(file);
         const transcribedText = await transcribeAudio(ai, audioPart);
         setText(transcribedText);
@@ -136,8 +133,7 @@ const App = () => {
       setAudioUrl(null);
   
       try {
-        // FIX: Use process.env.API_KEY as per guidelines.
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+        const ai = new GoogleGenAI({ apiKey: API_KEY as string });
         const generationConfig: GenerationParams = mode === GenerationMode.Prebuilt
           ? { mode: GenerationMode.Prebuilt, voice: selectedVoice }
           : { mode: GenerationMode.Custom, config: customVoiceConfig };
@@ -271,13 +267,7 @@ const App = () => {
               )}
             </div>
   
-            {!isApiKeyConfigured && (
-              <div className="bg-yellow-900/50 text-yellow-200 border border-yellow-700 p-4 rounded-lg text-center">
-                <p className="font-bold">Cảnh báo Cấu hình</p>
-                {/* FIX: Use API_KEY instead of VITE_API_KEY in the message as per guidelines. */}
-                <p className="text-sm mt-1">Không tìm thấy API key. Vui lòng đặt biến môi trường <code>API_KEY</code> để kích hoạt.</p>
-              </div>
-            )}
+            {/* Fix: Removed API key warning UI as per guidelines. */}
   
             <button
               onClick={handleConversion}
