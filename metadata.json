@@ -1,0 +1,5 @@
+{
+  "name": "Voice Style Transfer",
+  "description": "Convert text into speech using different voice styles powered by the Gemini API. Enter your text, choose a desired voice, and listen to the generated audio output.",
+  "requestFramePermissions": []
+}
