@@ -16,6 +16,27 @@ import {
   EMPHASIS_OPTIONS,
 } from '../constants';
 
+export const transcribeAudio = async (
+  ai: GoogleGenAI,
+  audioPart: { inlineData: { mimeType: string; data: string } }
+): Promise<string> => {
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: {
+      parts: [
+        { text: 'Hãy phiên âm đoạn âm thanh sau đây thành văn bản:' },
+        audioPart
+      ],
+    },
+  });
+
+  const transcription = response.text;
+  if (!transcription) {
+    throw new Error('Không thể phiên âm âm thanh. Phản hồi trống.');
+  }
+  return transcription;
+};
+
 export const generateSpeech = async (
   ai: GoogleGenAI,
   text: string,
