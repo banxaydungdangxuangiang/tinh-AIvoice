@@ -1,7 +1,9 @@
 
+// Fix: Import dependencies as ES modules instead of accessing them from the global scope.
 import React, { useState, useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { GoogleGenAI, Modality } from '@google/genai';
+
 
 // ===================================================================================
 // MERGED FILE CONTENT
